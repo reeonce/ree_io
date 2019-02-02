@@ -26,15 +26,19 @@ int FileSource::OpenToRead() {
 int FileSource::OpenToWrite() {
     auto urlString = url_->UrlString();
     try {
-        rs_.open(urlString, std::ofstream::binary);
+        ws_.open(urlString, std::ofstream::binary);
     } catch (std::ios_base::failure& e) {
         return e.code().value();
     }
     return 0;
 }
 void FileSource::Close() {
-    rs_.close();
-    ws_.close();
+    if (rs_.is_open()) {
+        rs_.close();
+    }
+    if (ws_.is_open()) {
+        ws_.close();
+    }
 }
 
 int FileSource::GetSize(size_t &size) {

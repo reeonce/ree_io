@@ -13,7 +13,7 @@ enum class BitOrder {
 
 class BitBuffer {
 public:
-    BitBuffer(const uint8_t *buffer, BitOrder order = BitOrder::LeftToRight,
+    BitBuffer(const uint8_t *buffer, size_t size, BitOrder order = BitOrder::LeftToRight,
         size_t begin = 0);
 
     uint32_t ReadBits(size_t size);
@@ -23,11 +23,12 @@ private:
     void FeedVal();
 
     const uint8_t *buffer_;
+    size_t size_;
     BitOrder order_;
     size_t bitPos_;
 
     uint64_t val_;
-    size_t valPos_;
+    size_t valBits_;
 };
 
 }

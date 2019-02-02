@@ -20,22 +20,20 @@ set(REE_IO_SRC
 add_library(ree_io ${REE_IO_SRC})
 target_include_directories(ree_io PUBLIC src/)
 
-set_target_properties(ree_io PROPERTIES
-    CMAKE_CXX_STANDARD 11
-    CMAKE_CXX_STANDARD_REQUIRED ON
-    CMAKE_CXX_EXTENSIONS OFF
-)
+target_compile_features(ree_io PUBLIC cxx_std_11)
 
 option(REE_IO_ENABLE_TESTS "enable unit tests" OFF)
 
 if(REE_IO_ENABLE_TESTS)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ree_unittest
-        ${CMAKE_CURRENT_BINARY_DIR}/ree_unittest)
+    if(NOT TARGET ree_unittest)
+        add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ree_unittest
+            ${CMAKE_CURRENT_BINARY_DIR}/ree_unittest)
+    endif(NOT TARGET ree_unittest)
 
     set(REE_IO_TESTS_SRC
         test/ree/io/bit_buffer_tests.cc
     )
-    add_executable(test test/main.cc ${REE_IO_TESTS_SRC})
-    target_include_directories(test PRIVATE test/)
-    target_link_libraries(test PRIVATE ree_io ree_unittest)
+    add_executable(ree_io_test test/main.cc ${REE_IO_TESTS_SRC})
+    target_include_directories(ree_io_test PRIVATE test/)
+    target_link_libraries(ree_io_test PRIVATE ree_io ree_unittest)
 endif(REE_IO_ENABLE_TESTS)

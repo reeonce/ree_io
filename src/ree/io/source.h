@@ -10,9 +10,7 @@ namespace io {
 
 class Source {
 public:
-    std::shared_ptr<Source> SourceByPath(const std::string &path);
-
-    virtual ~Source() = 0;
+    static std::shared_ptr<Source> SourceByPath(const std::string &path);
     
     virtual int OpenToRead() = 0;
     virtual int OpenToWrite() = 0;
