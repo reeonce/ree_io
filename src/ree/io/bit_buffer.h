@@ -6,10 +6,11 @@
 namespace ree {
 namespace io {
 
+template<typename T> 
 struct BitsValue {
-    BitsValue();
+    BitsValue() : val(0), bits(0) {}
 
-    uint64_t val;
+    T val;
     size_t bits;
 };
 
@@ -36,7 +37,7 @@ public:
      */
     uint32_t NextBits(size_t size);
 private:
-    void FeedVal(BitsValue &window, size_t size);
+    void FeedVal(BitsValue<uint32_t> &window, size_t size);
 
     const uint8_t *buffer_;
     size_t size_;
@@ -71,7 +72,7 @@ private:
     const uint8_t *buffer_;
     size_t size_;
     size_t pos_;
-    BitsValue window_;
+    BitsValue<uint64_t> window_;
 };
 
 /**
@@ -99,7 +100,7 @@ public:
      */
     uint32_t NextBits(size_t size);
 private:
-    void FeedVal(BitsValue &window, size_t size);
+    void FeedVal(BitsValue<uint32_t> &window, size_t size);
 
     const uint8_t *buffer_;
     size_t size_;
@@ -136,7 +137,7 @@ private:
     const uint8_t *buffer_;
     size_t size_;
     size_t pos_;
-    BitsValue window_;
+	BitsValue<uint64_t> window_;
 };
 
 }

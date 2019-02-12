@@ -19,8 +19,10 @@ set(REE_IO_SRC
 
 add_library(ree_io ${REE_IO_SRC})
 target_include_directories(ree_io PUBLIC src/)
-
 target_compile_features(ree_io PUBLIC cxx_std_11)
+if(WIN32)
+    target_link_libraries(ree_io Ws2_32)
+endif(WIN32)
 
 option(REE_IO_ENABLE_TESTS "enable unit tests" OFF)
 

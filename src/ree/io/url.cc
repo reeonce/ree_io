@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 namespace ree {
 namespace io {

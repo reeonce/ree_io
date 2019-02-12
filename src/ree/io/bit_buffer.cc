@@ -13,11 +13,6 @@ static uint8_t reverse_bits(uint8_t n) {
    // Reverse the top and bottom nibble then swap them.
    return (lookup[n&0b1111] << 4) | lookup[n>>4];
 }
-    
-BitsValue::BitsValue()
-    : val(0),
-      bits(0) {
-}
 
 LSigBitBuffer::LSigBitBuffer(const uint8_t *buffer, size_t size, size_t begin)
     : buffer_(buffer),
@@ -30,11 +25,11 @@ uint32_t LSigBitBuffer::ReadBits(size_t size) {
     return val;
 }
 uint32_t LSigBitBuffer::NextBits(size_t size) {
-    BitsValue window;
+	BitsValue<uint32_t> window;
     FeedVal(window, size);
     return static_cast<uint32_t>(window.val);
 }
-void LSigBitBuffer::FeedVal(BitsValue &window, size_t size) {
+void LSigBitBuffer::FeedVal(BitsValue<uint32_t> &window, size_t size) {
     while (window.bits < size) {
         size_t bitPos = (pos_ + window.bits);
         size_t bytePos = bitPos >> 3;
@@ -64,11 +59,11 @@ uint32_t BigEndianLSigBitBuffer::ReadBits(size_t size) {
     return val;
 }
 uint32_t BigEndianLSigBitBuffer::NextBits(size_t size) {
-    BitsValue window;
+	BitsValue<uint32_t> window;
     FeedVal(window, size);
     return window.val;
 }
-void BigEndianLSigBitBuffer::FeedVal(BitsValue &window, size_t size) {
+void BigEndianLSigBitBuffer::FeedVal(BitsValue<uint32_t> &window, size_t size) {
     while (window.bits < size) {
         size_t bitPos = (pos_ + window.bits);
         size_t bytePos = bitPos >> 3;
