@@ -14,22 +14,22 @@ static uint8_t reverse_bits(uint8_t n) {
    return (lookup[n&0b1111] << 4) | lookup[n>>4];
 }
 
-LSigBitBuffer::LSigBitBuffer(const uint8_t *buffer, size_t size, size_t begin)
+RLSBBuffer::RLSBBuffer(const uint8_t *buffer, size_t size, size_t begin)
     : buffer_(buffer),
       size_(size),
       pos_(begin) {
 }
-uint32_t LSigBitBuffer::ReadBits(size_t size) {
+uint32_t RLSBBuffer::ReadBits(size_t size) {
     uint32_t val = NextBits(size);
     pos_ += size;
     return val;
 }
-uint32_t LSigBitBuffer::NextBits(size_t size) {
+uint32_t RLSBBuffer::NextBits(size_t size) {
 	BitsValue<uint32_t> window;
     FeedVal(window, size);
     return static_cast<uint32_t>(window.val);
 }
-void LSigBitBuffer::FeedVal(BitsValue<uint32_t> &window, size_t size) {
+void RLSBBuffer::FeedVal(BitsValue<uint32_t> &window, size_t size) {
     while (window.bits < size) {
         size_t bitPos = (pos_ + window.bits);
         size_t bytePos = bitPos >> 3;
@@ -47,23 +47,23 @@ void LSigBitBuffer::FeedVal(BitsValue<uint32_t> &window, size_t size) {
     }
 }
 
-BigEndianLSigBitBuffer::BigEndianLSigBitBuffer(const uint8_t *buffer,
+BigEndianRLSBBuffer::BigEndianRLSBBuffer(const uint8_t *buffer,
     size_t size, size_t begin)
     : buffer_(buffer),
       size_(size),
       pos_(begin) {
 }
-uint32_t BigEndianLSigBitBuffer::ReadBits(size_t size) {
+uint32_t BigEndianRLSBBuffer::ReadBits(size_t size) {
     uint32_t val = NextBits(size);
     pos_ += size;
     return val;
 }
-uint32_t BigEndianLSigBitBuffer::NextBits(size_t size) {
+uint32_t BigEndianRLSBBuffer::NextBits(size_t size) {
 	BitsValue<uint32_t> window;
     FeedVal(window, size);
     return window.val;
 }
-void BigEndianLSigBitBuffer::FeedVal(BitsValue<uint32_t> &window, size_t size) {
+void BigEndianRLSBBuffer::FeedVal(BitsValue<uint32_t> &window, size_t size) {
     while (window.bits < size) {
         size_t bitPos = (pos_ + window.bits);
         size_t bytePos = bitPos >> 3;
@@ -81,25 +81,25 @@ void BigEndianLSigBitBuffer::FeedVal(BitsValue<uint32_t> &window, size_t size) {
     }
 }
 
-LittleEndianLSigBitBuffer::LittleEndianLSigBitBuffer(const uint8_t *buffer,
+LittleEndianRLSBBuffer::LittleEndianRLSBBuffer(const uint8_t *buffer,
     size_t size, size_t begin)
     : buffer_(buffer),
       size_(size),
       pos_(begin) {
 }
-uint32_t LittleEndianLSigBitBuffer::ReadBits(size_t size) {
+uint32_t LittleEndianRLSBBuffer::ReadBits(size_t size) {
     uint32_t val = NextBits(size);
     window_.val >>= size;
     window_.bits -= size;
     return val;
 }
-uint32_t LittleEndianLSigBitBuffer::NextBits(size_t size) {
+uint32_t LittleEndianRLSBBuffer::NextBits(size_t size) {
     if (window_.bits < size) {
         FeedVal();
     }
     return window_.val & ((1 << size) - 1);
 }
-void LittleEndianLSigBitBuffer::FeedVal() {
+void LittleEndianRLSBBuffer::FeedVal() {
     while (window_.bits <= 56 && (pos_ >> 3) < size_) {
         uint8_t nextByte = buffer_[(pos_ >> 3)];
         size_t invalidBits = pos_ & 0x07;

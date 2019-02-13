@@ -18,5 +18,7 @@ std::shared_ptr<Source> Source::SourceByPath(const std::string &path) {
     return nullptr;
 }
 
+Source::~Source() {}
+
 }
 }

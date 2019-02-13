@@ -12,6 +12,8 @@ class Source {
 public:
     static std::shared_ptr<Source> SourceByPath(const std::string &path);
     
+    virtual ~Source();
+    
     virtual int OpenToRead() = 0;
     virtual int OpenToWrite() = 0;
     virtual void Close() = 0;

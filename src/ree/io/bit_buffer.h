@@ -15,11 +15,11 @@ struct BitsValue {
 };
 
 /**
- * the data is not byte aligned, with left bits are more significant.
+ * the data is not byte aligned, with the right bit is least significant bit
  */
-class LSigBitBuffer {
+class RLSBBuffer {
 public:
-    LSigBitBuffer(const uint8_t *buffer, size_t size, size_t begin = 0);
+    RLSBBuffer(const uint8_t *buffer, size_t size, size_t begin = 0);
 
     /**
      * read some bits of the buffer and advance the cursor
@@ -45,11 +45,11 @@ private:
 };
 
 /**
- * the data is not byte aligned, with right bits are more significant.
+ * the data is not byte aligned, with the left bit is least significant bit
  */
-class RSigBitBuffer {
+class LLSBBuffer {
 public:
-    RSigBitBuffer(const uint8_t *buffer, size_t size, size_t begin = 0);
+    LLSBBuffer(const uint8_t *buffer, size_t size, size_t begin = 0);
 
     /**
      * read some bits of the buffer and advance the cursor
@@ -77,11 +77,11 @@ private:
 
 /**
  * the data is byte aligned, while lower memory bytes are more significant, 
- * and left bits are more significant. Such as ZLIB data format.
+ * and the right bit is least significant bit. Such as ZLIB data format.
  */
-class BigEndianLSigBitBuffer {
+class BigEndianRLSBBuffer {
 public:
-    BigEndianLSigBitBuffer(const uint8_t *buffer, size_t size,
+    BigEndianRLSBBuffer(const uint8_t *buffer, size_t size,
         size_t begin = 0);
 
     /**
@@ -109,11 +109,11 @@ private:
 
 /**
  * the data is byte aligned, while lower memory bytes are less significant, 
- * and left bits are more significant.
+ * and the right bit is least significant bit.
  */
-class LittleEndianLSigBitBuffer {
+class LittleEndianRLSBBuffer {
 public:
-    LittleEndianLSigBitBuffer(const uint8_t *buffer, size_t size,
+    LittleEndianRLSBBuffer(const uint8_t *buffer, size_t size,
         size_t begin = 0);
 
     /**

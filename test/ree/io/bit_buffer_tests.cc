@@ -5,10 +5,10 @@
 namespace ree {
 namespace io {
 
-R_TEST_F(LSigBitBuffer, NextBits) {
+R_TEST_F(RLSBBuffer, NextBits) {
     uint8_t buf[] = {0x34, 0x89, 0xef};
     {
-        LSigBitBuffer bitBuf(buf, sizeof(buf));
+        RLSBBuffer bitBuf(buf, sizeof(buf));
         R_ASSERT_EQ(bitBuf.NextBits(1), 0);
         R_ASSERT_EQ(bitBuf.NextBits(2), 0);
         R_ASSERT_EQ(bitBuf.NextBits(3), 0x01);
@@ -25,7 +25,7 @@ R_TEST_F(LSigBitBuffer, NextBits) {
         R_ASSERT_EQ(bitBuf.NextBits(24), 0x3489ef);
     }
     {
-        LSigBitBuffer bitBuf(buf, sizeof(buf), 2);
+        RLSBBuffer bitBuf(buf, sizeof(buf), 2);
         R_ASSERT_EQ(bitBuf.NextBits(1), 0x01);
         R_ASSERT_EQ(bitBuf.NextBits(2), 0x03);
         R_ASSERT_EQ(bitBuf.NextBits(3), 0x06);
@@ -43,10 +43,10 @@ R_TEST_F(LSigBitBuffer, NextBits) {
     }
 }
     
-R_TEST_F(BigEndianLSigBitBuffer, NextBits) {
+R_TEST_F(BigEndianRLSBBuffer, NextBits) {
     uint8_t buf[] = {0x34, 0x89, 0xef};
     {
-        BigEndianLSigBitBuffer bitBuf(buf, sizeof(buf));
+        BigEndianRLSBBuffer bitBuf(buf, sizeof(buf));
         R_ASSERT_EQ(bitBuf.NextBits(1), 0);
         R_ASSERT_EQ(bitBuf.NextBits(2), 0);
         R_ASSERT_EQ(bitBuf.NextBits(3), 0x04);
@@ -63,7 +63,7 @@ R_TEST_F(BigEndianLSigBitBuffer, NextBits) {
         R_ASSERT_EQ(bitBuf.NextBits(24), 0x3489ef);
     }
     {
-        BigEndianLSigBitBuffer bitBuf(buf, sizeof(buf), 2);
+        BigEndianRLSBBuffer bitBuf(buf, sizeof(buf), 2);
         R_ASSERT_EQ(bitBuf.NextBits(1), 0x01);
         R_ASSERT_EQ(bitBuf.NextBits(2), 0x01);
         R_ASSERT_EQ(bitBuf.NextBits(3), 0x05);
