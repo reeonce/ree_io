@@ -14,17 +14,17 @@ public:
     
     virtual ~Source();
     
-    virtual int OpenToRead() = 0;
-    virtual int OpenToWrite() = 0;
+    virtual void OpenToRead() = 0;
+    virtual void OpenToWrite() = 0;
     virtual void Close() = 0;
 
-    virtual int GetSize(size_t &size) = 0;
+    virtual size_t GetSize() = 0;
 
     virtual size_t CurrentPos() = 0;
-    virtual int Seek(size_t index) = 0;
+    virtual void Seek(size_t index) = 0;
 
-    virtual int Read(uint8_t *data, size_t size) = 0;
-    virtual int Write(const uint8_t *data, size_t size) = 0;
+    virtual void Read(uint8_t *data, size_t size) = 0;
+    virtual void Write(const uint8_t *data, size_t size) = 0;
 };
 
 }

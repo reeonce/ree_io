@@ -1,5 +1,7 @@
 #include "http_source.h"
 
+#include <exception>
+
 namespace ree {
 namespace io {
 
@@ -7,31 +9,32 @@ HttpSource::HttpSource(const Url &url)
     : url_(url) {
 }
 
-int HttpSource::OpenToRead() {
-    return -1;
+void HttpSource::OpenToRead() {
+    throw std::bad_exception();
 }
-int HttpSource::OpenToWrite() {
-    return -1;
+void HttpSource::OpenToWrite() {
+    throw std::bad_exception();
 }
 void HttpSource::Close() {
+    throw std::bad_exception();
 }
 
-int HttpSource::GetSize(size_t &size) {
-    return -1;
+size_t HttpSource::GetSize() {
+    throw std::bad_exception();
 }
 
 size_t HttpSource::CurrentPos() {
     return 0;
 }
-int HttpSource::Seek(size_t index) {
-    return -1;
+void HttpSource::Seek(size_t index) {
+    throw std::bad_exception();
 }
 
-int HttpSource::Read(uint8_t *data, size_t size) {
-    return -1;
+void HttpSource::Read(uint8_t *data, size_t size) {
+    throw std::bad_exception();
 }
-int HttpSource::Write(const uint8_t *data, size_t size) {
-    return -1;
+void HttpSource::Write(const uint8_t *data, size_t size) {
+    throw std::bad_exception();
 }
 
 }

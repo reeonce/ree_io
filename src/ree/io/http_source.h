@@ -12,17 +12,17 @@ class HttpSource: public Source {
 public:
     HttpSource(const Url &url);
 
-    int OpenToRead() override;
-    int OpenToWrite() override;
+    void OpenToRead() override;
+    void OpenToWrite() override;
     void Close() override;
 
-    int GetSize(size_t &size) override;
+    size_t GetSize() override;
 
     size_t CurrentPos() override;
-    int Seek(size_t index) override;
+    void Seek(size_t index) override;
 
-    int Read(uint8_t *data, size_t size) override;
-    int Write(const uint8_t *data, size_t size) override;
+    void Read(uint8_t *data, size_t size) override;
+    void Write(const uint8_t *data, size_t size) override;
 
 private:
     Url url_;

@@ -14,23 +14,13 @@ FileSource::FileSource(const std::shared_ptr<Url> &url)
 FileSource::~FileSource() {
 }
 
-int FileSource::OpenToRead() {
+void FileSource::OpenToRead() {
     auto urlString = url_->UrlString();
-    try {
-        rs_.open(urlString, std::ifstream::binary);
-    } catch (std::ios_base::failure& e) {
-        return e.code().value();
-    }
-    return 0;
+    rs_.open(urlString, std::ifstream::binary);
 }
-int FileSource::OpenToWrite() {
+void FileSource::OpenToWrite() {
     auto urlString = url_->UrlString();
-    try {
-        ws_.open(urlString, std::ofstream::binary);
-    } catch (std::ios_base::failure& e) {
-        return e.code().value();
-    }
-    return 0;
+    ws_.open(urlString, std::ofstream::binary);
 }
 void FileSource::Close() {
     if (rs_.is_open()) {
@@ -41,43 +31,26 @@ void FileSource::Close() {
     }
 }
 
-int FileSource::GetSize(size_t &size) {
-    try {
-        rs_.seekg(0, rs_.end);
-        size = rs_.tellg();
-    } catch (std::ios_base::failure& e) {
-        return e.code().value();
-    }
-    return 0;
+size_t FileSource::GetSize() {
+    size_t pos = rs_.tellg();
+    rs_.seekg(0, rs_.end);
+    size_t size = rs_.tellg();
+    rs_.seekg(pos);
+    return size;
 }
 
 size_t FileSource::CurrentPos() {
     return rs_.tellg();
 }
-int FileSource::Seek(size_t index) {
-    try {
-        rs_.seekg(index, rs_.beg);
-    } catch (std::ios_base::failure& e) {
-        return e.code().value();
-    }
-    return 0;
+void FileSource::Seek(size_t index) {
+    rs_.seekg(index, rs_.beg);
 }
 
-int FileSource::Read(uint8_t *data, size_t size) {
-    try {
-        rs_.read(reinterpret_cast<char *>(data), size);
-    } catch (std::ios_base::failure& e) {
-        return e.code().value();
-    }
-    return 0;
+void FileSource::Read(uint8_t *data, size_t size) {
+    rs_.read(reinterpret_cast<char *>(data), size);
 }
-int FileSource::Write(const uint8_t *data, size_t size) {
-    try {
-        ws_.write(reinterpret_cast<const char *>(data), size);
-    } catch (std::ios_base::failure& e) {
-        return e.code().value();
-    }
-    return 0;
+void FileSource::Write(const uint8_t *data, size_t size) {
+    ws_.write(reinterpret_cast<const char *>(data), size);
 }
 
 }
